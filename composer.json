@@ -1,0 +1,17 @@
+{
+    "name": "derywat/php-simple-storage",
+    "description": "Simple PHP library for storing key => value data.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "derywat\\simpleStorage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Michal Rychlewski"
+        }
+    ],
+    "require": {}
+}
