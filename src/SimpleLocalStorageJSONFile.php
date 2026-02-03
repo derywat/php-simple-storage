@@ -18,15 +18,23 @@ class SimpleLocalStorageJSONFile extends SimpleLocalStorage implements SimpleLoc
 		file_put_contents($this->fileName.'.tmp',json_encode($this->getValues()),LOCK_EX);
 		chmod($this->fileName.'.tmp',0666);
 		if(file_exists($this->fileName)){
-			rename($this->fileName,$this->fileName.'.bak.'.((new DateTime())->format('Y-m-d_H.i.s.u')));
+			$bak_name = $this->fileName.'.bak';
+			if(file_exists($bak_name)){
+				@unlink($bak_name);
+			}
+			rename($this->fileName,$bak_name);
 		}
-		rename($this->fileName.'.tmp',$this->fileName);		
+		rename($this->fileName.'.tmp',$this->fileName);
 	}
 
 	protected function _load():void {
 		$this->_check_storage_file();
 		if(file_exists($this->fileName)){
 			$fileData = file_get_contents($this->fileName);
+			$data = json_decode($fileData,true);
+			$this->values = $data;
+		} else if(file_exists($this->fileName.'.bak')){
+			$fileData = file_get_contents($this->fileName.'.bak');
 			$data = json_decode($fileData,true);
 			$this->values = $data;
 		} else {
